@@ -3,6 +3,7 @@ const { resolve } = require('path');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('./schema');
+const dotenv = require('dotenv');
 
 const app = express();
 const port = 3010;
@@ -10,7 +11,14 @@ const port = 3010;
 app.use(express.static('static'));
 app.use(express.json()); 
 
-mongoose.connect('mongodb+srv://emparalabhavdeeps86:b0haeY3KUsuQ1cgi@usershema1.2lwkw.mongodb.net/?retryWrites=true&w=majority&appName=usershema1');
+
+
+
+dotenv.config();
+mongoose.connect( process.env.DB_URI)
+    .then(() => console.log('MongoDB connected...'))
+    .catch(err => console.log(err));
+
 
 app.get('/', (req, res) => {
   res.sendFile(resolve(__dirname, 'pages/index.html'));
